@@ -1,16 +1,17 @@
 import java.util.*
 
-data class GraphNode<T>(val v: T) {
-    val adjacent = mutableSetOf<GraphNode<T>>()
+open class GraphNode<T>(val v: T) {
+    private val adjacent = mutableSetOf<GraphNode<T>>()
+    open fun getAdjacent() = adjacent
     fun edgeTo(n: GraphNode<T>): GraphNode<T> {
-        adjacent.add(n)
-        n.adjacent.add(this)
+        getAdjacent().add(n)
+        n.getAdjacent().add(this)
         return this
     }
 
     fun removeEdge(n: GraphNode<T>) {
-        adjacent.remove(n)
-        n.adjacent.remove(this)
+        getAdjacent().remove(n)
+        n.getAdjacent().remove(this)
     }
 
     override fun toString() = "n($v)"
@@ -33,7 +34,7 @@ fun <T> levelsOfBFS(
         if (!continueOnVisit(current))
             break
 
-        val unvisitedAdjacent = current.adjacent.filterNot { visited.contains(it) }
+        val unvisitedAdjacent = current.getAdjacent().filterNot { visited.contains(it) }
 
         if (unvisitedAdjacent.isNotEmpty()) {
             val nextLevel = levels.getOrPut(currentLevel + 1) { mutableSetOf() }

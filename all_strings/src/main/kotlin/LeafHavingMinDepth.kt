@@ -1,7 +1,7 @@
 fun <T> minLeaf(root: GraphNode<T>): Int {
     return levelsOfBFS(root) {
         println(it)
-        it.adjacent.size > 1
+        it.getAdjacent().size > 1
     }.size
 }
 
